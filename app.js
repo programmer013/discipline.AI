@@ -1,6 +1,16 @@
-const API_KEY = ""; // keep your key here
-
+let API_KEY = "";
 const conversationHistory = [];
+
+function saveApiKey() {
+    const keyInput = document.getElementById("apiKeyInput").value.trim();
+    if (!keyInput) {
+        alert("Please enter your API key!!");
+        return;
+    }
+    API_KEY = keyInput;
+    document.getElementById("apiScreen").style.display = "none";
+    document.getElementById("chatScreen").style.display = "flex";
+}
 
 async function sendMessage() {
     const userInput = document.getElementById("userInput");
@@ -19,7 +29,6 @@ async function sendMessage() {
         <div class="message ai-message" id="typing">✨ Thinking...</div>
     `;
 
-    // Add user message to history
     conversationHistory.push({
         role: "user",
         content: message
@@ -34,8 +43,6 @@ async function sendMessage() {
             },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
-temperature: 0.7,
-max_tokens: 500,
                 messages: [
                     {
                         role: "system",
@@ -47,18 +54,14 @@ max_tokens: 500,
         });
 
         const data = await response.json();
-        
         document.getElementById("typing").remove();
 
         if (data.choices && data.choices[0]) {
             const aiReply = data.choices[0].message.content;
-            
-            // Add AI response to history
             conversationHistory.push({
                 role: "assistant",
                 content: aiReply
             });
-
             chatBox.innerHTML += `
                 <div class="message ai-message">${aiReply}</div>
             `;
@@ -73,12 +76,17 @@ max_tokens: 500,
         chatBox.innerHTML += `
             <div class="message ai-message">❌ Error: ${error.message}</div>
         `;
-        console.error("Error:", error);
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-document.getElementById("userInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") sendMessage();
+document.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        if (document.getElementById("chatScreen").style.display !== "none") {
+            sendMessage();
+        } else {
+            saveApiKey();
+        }
+    }
 });

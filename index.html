@@ -10,20 +10,34 @@
 
     <div class="container">
         <div class="header">
-            <h1>DisciplineAI</h1>
+            <h1>🎯 DisciplineAI</h1>
             <p>Motivation comes and goes, build your own discipline</p>
         </div>
 
-        <div class="chat-box" id="chatBox">
-            <div class="message ai-message">
-                👋 Hey! I'm DisciplineAI. I'm here to help you study better and stay disciplined. What's your name?
+        <!-- API Key Screen -->
+        <div class="api-screen" id="apiScreen">
+            <div class="api-box">
+                <h2>Welcome!! 👋</h2>
+                <p>To use DisciplineAI you need a free Groq API key</p>
+                <a href="https://console.groq.com" target="_blank">👉 Get free key here</a>
+                <input type="password" id="apiKeyInput" placeholder="Paste your Groq API key here..." />
+                <button onclick="saveApiKey()">Start DisciplineAI 🚀</button>
             </div>
         </div>
 
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="Type your message here..." />
-            <button onclick="sendMessage()">Send </button>
+        <!-- Chat Screen -->
+        <div class="chat-screen" id="chatScreen" style="display:none;">
+            <div class="chat-box" id="chatBox">
+                <div class="message ai-message">
+                    👋 Hey! I'm DisciplineAI. I'm here to help you study better and stay disciplined. What's your name?
+                </div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Type your message here..." />
+                <button onclick="sendMessage()">Send 🚀</button>
+            </div>
         </div>
+
     </div>
 
     <script src="app.js"></script>
